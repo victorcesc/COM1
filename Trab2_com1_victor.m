@@ -10,7 +10,7 @@ f2 = 2e3;
 f3 = 3e3;
 w1 = 2*pi*f1;
 w2 = 2*pi*f2;
-we = 2*pi*f3;
+w3 = 2*pi*f3;
 %amplitudes
 A = 1;
 Ac = 1;
@@ -39,6 +39,7 @@ st2 = mt2.*ct2;
 st3 = mt3.*ct3;
 
 
+
 figure(1)
 subplot(611)
 plot(t,mt1)
@@ -49,66 +50,111 @@ plot(t,ct1)
 xlim([0 1e-2])
 
 
-subplot(413)
-plot(t, s_t_1)
-hold on
-plot(t,m_t)
-xlim([0 0.1e-2])
-ylim([-3 3])
-title('AM-DSB SC')
+subplot(613)
+plot(t,mt2)
+xlim([0 1e-2])
 
-subplot(414)
-plot(t,s_t_2)
-hold on
-plot(t,m_t_dsb)
-xlim([0 0.1e-2])
-ylim([-6 6])
-title('AM-DSB')
+subplot(614)
+plot(t,ct2)
+xlim([0 1e-2])
 
-%% demodulação AM-DSB SC
+
+subplot(615)
+plot(t,mt3)
+xlim([0 1e-2])
+
+subplot(616)
+plot(t,ct3)
+xlim([0 1e-2])
+
+
+figure(2)
+subplot(311)
+plot(t,st1)
+xlim([0 1e-2])
+
+subplot(312)
+plot(t,st2)
+xlim([0 1e-2])
+
+subplot(313)
+plot(t,st3)
+xlim([0 1e-2])
+
+
+Sf1 = fftshift(fft(st1));
+Sf2 = fftshift(fft(st2));
+Sf3 = fftshift(fft(st3));
+
 
 freq = -fa/2:fa/2;
 
-s_t_d = s_t_1.*c_t; 
-
-S_f_d = fftshift(fft(s_t_d));%fft tempo -> Freq
-
-filtro = fir1(50, (2e3)/fa);%criando filtro
-
-s_dsbsc = filter(filtro, 1, s_t_d); %filtrando sinal demodulado s_t_d
-
-S_dsbsc = fftshift(fft(s_dsbsc));
-
-figure(2)
-subplot(411)
-plot(t,m_t)
-
-subplot(412)
-plot(t,s_dsbsc)
-
-subplot(413)
-plot(freq,abs(S_f_d))
-xlim([-2e3 2e3])
-
-subplot(414)
-plot(freq,abs(S_dsbsc))
-xlim([-2e3 2e3])
-
-
-
-%% fator de modulacao AM-DSB
-
-% FATORES DE MODULAÇÃO
-fator = [0.25 0.5 0.75 1 1.15];
 figure(3)
-sub = 510;
-for n = 1:5        
-    subplot(sub+n)
-    s_t_1 = (1+fator(n)*m_t).*c_t;
-    plot(t,s_t_1)
-    xlim([0 .001]);
-    title(fator(n))
-end
+subplot(311)
+plot(freq,abs(Sf1))
+xlim([-18e3 18e3])
+
+subplot(312)
+plot(freq,abs(Sf2))
+xlim([-18e3 18e3])
+
+subplot(313)
+plot(freq,abs(Sf3))
+xlim([-18e3 18e3])
+
+%filtrando s1 s2 s3
+
+filtro_PF1 = [zeros(1,88000) ones(1,2000) zeros(1,20000) ones(1,2000) zeros(1,88001)];
+filtro_PF2 = [zeros(1,85000) ones(1,2000) zeros(1,26000) ones(1,2000) zeros(1,85001)];
+filtro_PF3 = [zeros(1,81500) ones(1,2000) zeros(1,33000) ones(1,2000) zeros(1,81501)];
+
+
+figure(4)
+subplot(311)
+plot(freq,filtro_PF1)
+xlim([-20000 20000])
+
+subplot(312)
+plot(freq,filtro_PF2)
+xlim([-20000 20000])
+
+subplot(313)
+plot(freq,filtro_PF3)
+xlim([-20000 20000])
+
+Sf1 = Sf1.*filtro_PF1;
+Sf2 = Sf2.*filtro_PF2;
+Sf3 = Sf3.*filtro_PF3;
+
+figure(5)
+subplot(311)
+plot(freq,abs(Sf1))
+xlim([-18e3 18e3])
+
+subplot(312)
+plot(freq,abs(Sf2))
+xlim([-18e3 18e3])
+
+subplot(313)
+plot(freq,abs(Sf3))
+xlim([-20e3 20e3])
+
+%soma as componentes filtradas
+
+sinal = Sf1+Sf2+Sf3;
 
 
 
+%demodula cada componente pela portadora original
+
+
+
+
+%passa baixa para recuperar o sinal original
+
+
+
+
+
+
+ 
