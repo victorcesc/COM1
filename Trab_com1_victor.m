@@ -85,7 +85,7 @@ xlim([-2e3 2e3])
 %% fator de modulacao AM-DSB
 
 % FATORES DE MODULAÇÃO
-fator = [0.25 0.5 0.75 1 1.15];
+fator = [0.25 0.5 0.75 1 1.5];
 figure(3)
 sub = 510;
 for n = 1:5        
