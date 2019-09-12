@@ -195,7 +195,7 @@ plot(freq,filtro_PF1)
 
 mf1 = Sf_filtrado.*filtro_PF1;
 
-mt1 = ifft(mf1);
+mt1 = ifft(ifftshift(mf1)*length(Sf1));
 subplot(611)
 plot(t,mt1)
 xlim([0 0.01])
@@ -204,7 +204,7 @@ plot(freq,abs(mf1))
 
 mf2 = Sf_filtrado.*filtro_PF2;
 
-mt2 = ifft(mf2);
+mt2 = ifft(ifftshift(mf2)*length(Sf2));
 
 subplot(613)
 plot(t,mt2)
@@ -214,7 +214,7 @@ plot(freq,abs(mf2))
 
 mf3 = Sf_filtrado.*filtro_PF3;
 
-mt3 = ifft(mf3);
+mt3 = ifft(ifftshift(mf3)*length(Sf3));
 
 subplot(615)
 plot(t,mt3)
