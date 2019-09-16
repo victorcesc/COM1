@@ -50,7 +50,7 @@ xlim([0 10*N])
 % receptor
 limiar = 0;
 figure(5)
-info_hat = info_rx(N/2:N:end) > limiar;
+info_hat = info_rx(N/2:N:end) > limiar; %chave de amostragem//comparacao limiar
 stem(info_hat)
 
 %taxa de erro
