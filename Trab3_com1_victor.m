@@ -41,8 +41,8 @@ xlim([0 10*N])
 ylim([-2 2])
 
 
-%SNR = SNR_max - 10*(log10(N));
-info_rx = awgn(info_tx, SNR_max,'measured');
+SNR = SNR_max - (10*(log10(N)));
+info_rx = awgn(info_tx, SNR,'measured');
 figure(3)
 subplot(211)
 plot(info_rx)
@@ -50,10 +50,11 @@ xlim([0 10*N])
 title(strcat('Sinal recebido com ruido SNR =', num2str(SNR_max)))
 
 
-filtro_rx = fliplr(filtro_tx);
+filtro_rx = fliplr(filtro_tx);%filtro casado
 info_rx_filter = filter(filtro_tx,1,info_rx)/N;
 subplot(212)
 plot(info_rx_filter)
 xlim([0 10*N])
 title('Sinal pos filtro casado')
+
 
