@@ -32,3 +32,6 @@ s_t_FSK_2 = (cos(2*pi*t*f2.*(info_format+1)));
 subplot(412)
 plot(t, s_t_FSK_2)
 title('Freq 2 PSK')
+
+
+%tem q terminar
