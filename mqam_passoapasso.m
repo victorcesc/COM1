@@ -3,7 +3,7 @@ clear all; close all; clc;
 
 n = 4; % log2(16); 16-QAM
 l = 10000; % quantidade de bits;
-N = 4;
+N = 100;
 symbols = l/n;
 
 info = randi([0 1], symbols, 4);
@@ -22,8 +22,8 @@ subplot(411); plot(info_fase); axis([0 2500 -4 4]); title('Informação em fase'
 subplot(412); plot(info_quad); axis([0 2500 -4 4]); title('Informação em quadratura');
 
 %% Geração dos sinais de portadora
-Fp = 1000; 
-Fs = 10000;
+Fp = 30000; 
+Fs = 250000;
 Ts = 1/Fs;
 Tp = 1/Fp; Tf = 1;
 delta = Ts;
@@ -43,6 +43,18 @@ info_desl_quad = info_quad .* Sq;
 info_out = info_desl_fase - info_desl_quad;
 
 figure(2)
-subplot(311); plot(info_desl_fase);xlim([0 150])
-subplot(312); plot(info_desl_quad);xlim([0 150])
-subplot(313); plot(info_out);xlim([0 150])
+subplot(311); plot(info_desl_fase);title('Info Mult. em fase pela portadora');
+subplot(312); plot(info_desl_quad);title('Info Mult. em quad pela portadora');
+subplot(313); plot(info_out);title('Sinal Transmitido');
+
+
+
+
+
+infodemod = qamdemod(info_out,16);
+figure(3)
+subplot(211);plot(infodemod); xlim([1 150])
+subplot(212);plot(info); xlim([1 150])
+
+
+
